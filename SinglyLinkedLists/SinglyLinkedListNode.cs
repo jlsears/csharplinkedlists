@@ -15,9 +15,16 @@ namespace SinglyLinkedLists
         private SinglyLinkedListNode next;
         public SinglyLinkedListNode Next
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
-        }
+            get { return next; }
+            set
+            {
+                if (value == this) {
+                    throw new ArgumentException();
+                }
+
+                this.next = value;
+            }
+        } //here we're forcing an error to be thrown
 
         private string value; //same as this.value
         //Value is a property!! Fix the getter!
@@ -42,6 +49,10 @@ namespace SinglyLinkedLists
         {
             this.value = input; //distinguishing between the two named items in this context
                                 //don't have to use setter because in same class
+            //undeclared data members default to null, but...
+            this.next = null;
+            
+            
             // Used by the visualizer:
             allNodes.Add(this);
         }
@@ -54,7 +65,26 @@ namespace SinglyLinkedLists
 
         public bool IsLast()
         {
-            throw new NotImplementedException();
+            /* this makes the test pass
+            if (this.next == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override string ToString()
+        {
+            return this.value;
+        }
+        */
+            /* Refactor 1: no else statement*/
+
+            /*Refactor 2 */
+            return this.next == null;
         }
     }
 }
