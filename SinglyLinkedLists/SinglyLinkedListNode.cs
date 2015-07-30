@@ -18,10 +18,9 @@ namespace SinglyLinkedLists
             get { return next; }
             set
             {
-                if (value == this) {
+                if (value.Equals(this)) {
                     throw new ArgumentException();
                 }
-
                 this.next = value;
             }
         } //here we're forcing an error to be thrown
@@ -45,11 +44,29 @@ namespace SinglyLinkedLists
             return node1.CompareTo(node2) > 0;
         }
 
+        public static bool operator ==(SinglyLinkedListNode node1, SinglyLinkedListNode node2)
+        {
+            return node1.CompareTo(node2) > 0;
+        }
+
+        public static bool operator ==(SinglyLinkedListNode node1, SinglyLinkedListNode node2)
+        {
+            return node1.CompareTo(node2) == 0;
+        }
+
+        public static bool operator ==(SinglyLinkedListNode node1, SinglyLinkedListNode node2)
+        {
+            /* The long way
+            return node1.CompareTo(node2) != 0;
+            */
+            return !(node1 == node2);
+        }
+
         public SinglyLinkedListNode(string input)
         {
             this.value = input; //distinguishing between the two named items in this context
                                 //don't have to use setter because in same class
-            //undeclared data members default to null, but...
+            //Initialized data members default to null, but...
             this.next = null;
             
             
@@ -60,7 +77,17 @@ namespace SinglyLinkedLists
         // READ: http://msdn.microsoft.com/en-us/library/system.icomparable.compareto.aspx
         public int CompareTo(Object obj)
         {
-            throw new NotImplementedException();
+            SinglyLinkedListNode other_node = obj as SinglyLinkedListNode;
+            if (this.value == other_node.Value)
+            {
+                return 0; //it's 0 because the two things are equal
+            }
+            return 1;
+            /*Come back to this. What are other ways to compare instances?
+            else
+            {
+                throw new NotImplementedException();
+            }*/
         }
 
         public bool IsLast()
@@ -85,6 +112,11 @@ namespace SinglyLinkedLists
 
             /*Refactor 2 */
             return this.next == null;
+        }
+
+        public override string ToString()
+        {
+            return this.value;
         }
     }
 }
