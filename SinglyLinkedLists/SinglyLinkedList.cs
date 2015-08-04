@@ -43,7 +43,12 @@ namespace SinglyLinkedLists
                 first_node = new SinglyLinkedListNode(value);
             } else
             {
-
+                var node = this.first_node;
+                while(!node.IsLast()) 
+                {
+                    node = node.Next;
+                }
+                node.Next = new SinglyLinkedListNode(value);
             }
         }
 
@@ -57,7 +62,15 @@ namespace SinglyLinkedLists
                 return 0;
             } else
             {
-                return 0; //placeholder for now
+                int length = 1;
+                var node = this.first_node;
+                // Complexity is O(n) i.e., length of list determines how long to calculate number
+                while (node.Next != null)
+                {
+                    length++;
+                    node = node.Next;
+                }
+                return length;
             }
 
             //Provide a second implementation
@@ -70,7 +83,18 @@ namespace SinglyLinkedLists
                 throw new ArgumentOutOfRangeException();
             } else
             {
-                return ""; //Placeholder
+
+                var node = this.first_node;
+
+                for (var i = 0; i <= index; i++)
+                {
+                    if (i == index) //meaning it's our first node
+                    {
+                        break;
+                    }
+                    node = node.Next;
+                }
+                return node.Value; //getting string for your node
             }
         }
 
@@ -103,8 +127,38 @@ namespace SinglyLinkedLists
         // HINT 3: If you highlight code and right click, you can use the refactor menu to extract a method for you...
         public string Last()
         {
-            throw new NotImplementedException();
+            if (this.Count() == 0)
+            {
+                return null;
+            }
+            return null;
         }
+
+        /*
+            var node = this.first_node;
+            if (node = null)
+            {
+                return null;
+            } else
+            {
+                while (!node.IsLast())
+                {
+                    node = node.Next;
+                }
+                return node.Value;
+            }
+
+        */
+
+        //Re-solve
+
+        // Step 1: Do I need to loop???
+        // Step 2: If yes, do I already have an example of how?? (Pretty paramount)
+        // Step 3: How can I modify the previous examples?
+        // Step 4: Write what I think works.
+        // Step 5: Rebuild/Re-run tests
+        // Step 6: Rinse and repeat
+
 
         public void Remove(string value)
         {
