@@ -27,11 +27,10 @@ namespace SinglyLinkedLists
         }
 
 
-        public override string ToString()
+        /*public override string ToString()
         {
             var opening = "{";
             var ending = "}";
-            var items = " ";
             var space = " ";
             var output = "";
             var quote = "\"";
@@ -44,7 +43,7 @@ namespace SinglyLinkedLists
 
                 while (!node.IsLast())
                 {
-                    output += quote + node.Value + quote;
+                    output += quote + node.Value + quote + comma;
                     node = node.Next;
                 }
                 output += quote + this.Last() + quote;
@@ -52,9 +51,67 @@ namespace SinglyLinkedLists
             output += space;
             output += ending;
             return output;
+        }*/
+
+        /*public override string ToString()
+        {
+            StringBuilder output = new StringBuilder();
+
+            var opening = "{";
+            var ending = "}";
+            var space = " ";
+            var quote = "\"";
+            var comma = "," + space;
+
+            output.Append(opening);
+
+            var node = this.first_node;
+
+            output.Append(space).Append(quote).Append(node);
+
+            if (this.Count() > 1)
+            {
+                output.Append(space);                 
+                while (!node.IsLast())
+                {
+                    output.Append(quote).Append(node.Value).Append(quote).Append(comma);
+                    node = node.Next;
+                }
+                output.Append(quote).Append(this.Last()).Append(quote);
+
+            }
+            output.Append(quote).Append(space).Append(ending);
+            return output.ToString();
+        }*/
+
+        public override string ToString()
+        {
+            StringBuilder output = new StringBuilder();
+
+            var opening = "{";
+            var ending = "}";
+            var space = " ";
+            var quote = "\"";
+            var comma = "," + space;
+
+            output.Append(opening);
+
+            var node = this.first_node;
+
+            if (this.Count() >= 1)
+            {
+                output.Append(space);
+                while (!node.IsLast())
+                {
+                    output.Append(quote).Append(node.Value).Append(quote).Append(comma);
+                    node = node.Next;
+                }
+                output.Append(quote).Append(node);
+
+            }
+            output.Append(quote).Append(space).Append(ending);
+            return output.ToString();
         }
-
-
 
 
         public void AddAfter(string existingValue, string value)
