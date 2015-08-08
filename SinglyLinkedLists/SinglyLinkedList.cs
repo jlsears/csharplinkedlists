@@ -31,29 +31,32 @@ namespace SinglyLinkedLists
         {
             StringBuilder output = new StringBuilder();
 
+            
+            //Do some stuff
+
+            var node = this.first_node;
+
             var opening = "{";
             var ending = "}";
             var space = " ";
             var quote = "\"";
             var comma = "," + space;
 
-            output.Append(opening);
+            output.Append(opening).Append(space);
 
-            var node = this.first_node;
-
-            if (this.Count() >= 1)
+            while (node != null && !node.IsLast())
             {
-                output.Append(space);
-                while (!node.IsLast())
-                {
-                    output.Append(quote).Append(node.Value).Append(quote).Append(comma);
-                    node = node.Next;
-                }
-                output.Append(quote).Append(node);
-
+                output.Append(quote).Append(node.Value).Append(quote).Append(comma);
+                node = node.Next;
             }
-            output.Append(quote).Append(space).Append(ending);
+
+            if (node != null)
+            {
+                output.Append(quote).Append(node.Value).Append(quote).Append(space);
+            }
+            output.Append("}");
             return output.ToString();
+
         }
 
 
@@ -158,16 +161,8 @@ namespace SinglyLinkedLists
         // HINT 3: If you highlight code and right click, you can use the refactor menu to extract a method for you...
         public string Last()
         {
-            if (this.Count() == 0)
-            {
-                return null;
-            }
-            return null;
-        }
-
-        /*
             var node = this.first_node;
-            if (node = null)
+            if (node == null)
             {
                 return null;
             } else
@@ -178,8 +173,9 @@ namespace SinglyLinkedLists
                 }
                 return node.Value;
             }
+            
+        }
 
-        */
 
         //Re-solve
 
@@ -202,8 +198,9 @@ namespace SinglyLinkedLists
         }
 
         public string[] ToArray()
+
         {
-            throw new NotImplementedException();
+            return new string[] { };
         }
     }
 }
