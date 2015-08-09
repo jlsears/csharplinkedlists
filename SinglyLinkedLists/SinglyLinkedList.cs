@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 namespace SinglyLinkedLists
 {
@@ -31,13 +32,10 @@ namespace SinglyLinkedLists
         {
             StringBuilder output = new StringBuilder();
 
-            
-            //Do some stuff
-
             var node = this.first_node;
 
             var opening = "{";
-            var ending = "}";
+            //var ending = "}";
             var space = " ";
             var quote = "\"";
             var comma = "," + space;
@@ -200,7 +198,21 @@ namespace SinglyLinkedLists
         public string[] ToArray()
 
         {
-            return new string[] { };
+            var output = new string[] { };
+            //var outputAgain = new LinkedList<string>(output);
+            Stack stack = new Stack(output);
+
+            var node = this.first_node;
+
+            if (node != null && node.IsLast())
+            {
+                stack.Push(node);
+                return stack.ToArray();
+            }
+            else
+            {
+                return output;
+            }
         }
     }
 }
