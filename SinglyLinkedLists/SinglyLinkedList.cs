@@ -199,20 +199,22 @@ namespace SinglyLinkedLists
 
         {
             var output = new string[] { };
-            //var outputAgain = new LinkedList<string>(output);
-            Stack stack = new Stack(output);
+            var outputAgain = new LinkedList<string>(output);
 
             var node = this.first_node;
+            var howMany = outputAgain.Count;
 
-            if (node != null && node.IsLast())
+            while (node != null && !node.IsLast())
             {
-                stack.Push(node);
-                return stack.ToArray();
+                outputAgain.AddLast(node.ToString());
+                node = node.Next;          
             }
-            else
+
+            if (node != null)
             {
-                return output;
+                outputAgain.AddLast(node.ToString());
             }
+            return outputAgain.ToArray();
         }
     }
 }
