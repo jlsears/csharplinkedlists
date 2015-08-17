@@ -60,12 +60,56 @@ namespace SinglyLinkedLists
 
         public void AddAfter(string existingValue, string value)
         {
-            throw new NotImplementedException();
+            var node = this.first_node;
+            var newNode = new SinglyLinkedListNode(value);
+
+            while (node != null)
+            {
+                if (node.Value == existingValue)
+                {
+                    var capturePointer = node.Next;
+                    node.Next = newNode;
+                    newNode.Next = capturePointer;
+                    return; // Not so much returning a thing as completing a modification
+                }
+
+                else
+                {
+                    var lastNode = LastNode();
+                    lastNode.Next = newNode;
+                    return;
+                }
+
+                node = node.Next; // Propelling the while loop onto each next node in line
+
+            }
+             throw new ArgumentException(); // Essentially, if existingValue is not found    
         }
+
+
+        //public void AddAfterLastItem(string value)
+        //{
+        //    var newNode = new SinglyLinkedListNode(value);
+        //    var lastNode = LastNode();
+        //    lastNode.Next = newNode;
+        //    return;
+        //}
+
 
         public void AddFirst(string value)
         {
-            throw new NotImplementedException();
+            if (this.First() == null)
+            {
+                first_node = new SinglyLinkedListNode(value);
+            } else
+            {
+                var node = this.first_node;
+                while(!node.IsLast())
+                {
+                    node = node.Next;
+                }
+                node.Next = new SinglyLinkedListNode(value);
+            }
         }
 
         public void AddLast(string value)
@@ -157,22 +201,31 @@ namespace SinglyLinkedLists
         // HINT 1: You can extract this functionality (finding the last item in the list) from a method you've already written!
         // HINT 2: I suggest writing a private helper method LastNode()
         // HINT 3: If you highlight code and right click, you can use the refactor menu to extract a method for you...
+
         public string Last()
+        {
+
+            return LastNode().Value;
+        }
+
+
+        private SinglyLinkedListNode LastNode()
         {
             var node = this.first_node;
             if (node == null)
             {
                 return null;
-            } else
+            }
+            else
             {
                 while (!node.IsLast())
                 {
                     node = node.Next;
                 }
-                return node.Value;
+                return node;
             }
-            
         }
+
 
 
         //Re-solve
@@ -198,23 +251,22 @@ namespace SinglyLinkedLists
         public string[] ToArray()
 
         {
-            var output = new string[] { };
-            var outputAgain = new LinkedList<string>(output);
+            var output = new List<string>();
 
             var node = this.first_node;
-            var howMany = outputAgain.Count;
 
             while (node != null && !node.IsLast())
             {
-                outputAgain.AddLast(node.ToString());
-                node = node.Next;          
+                output.Add(node.ToString());
+                node = node.Next;  
+                
+                if (node.Next == null)
+                {
+                    output.Add(node.ToString());
+                    node = null;
+                }        
             }
-
-            if (node != null)
-            {
-                outputAgain.AddLast(node.ToString());
-            }
-            return outputAgain.ToArray();
+            return output.ToArray();
         }
     }
 }
