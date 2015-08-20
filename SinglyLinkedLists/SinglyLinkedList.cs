@@ -17,7 +17,11 @@ namespace SinglyLinkedLists
         // READ: http://msdn.microsoft.com/en-us/library/aa691335(v=vs.71).aspx
         public SinglyLinkedList(params object[] values)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < values.Length; i++)
+            {
+                this.AddLast(values[i].ToString());
+            }
+            
         }
 
         // READ: http://msdn.microsoft.com/en-us/library/6x16t2tx.aspx
@@ -255,18 +259,14 @@ namespace SinglyLinkedLists
 
             var node = this.first_node;
 
-            while (node != null && !node.IsLast())
+            while (node != null)
             {
-                output.Add(node.ToString());
-                node = node.Next;  
-                
-                if (node.Next == null)
-                {
-                    output.Add(node.ToString());
-                    node = null;
-                }        
+                output.Add(node.Value);
+                node = node.Next;
             }
             return output.ToArray();
         }
+
+
     }
 }
