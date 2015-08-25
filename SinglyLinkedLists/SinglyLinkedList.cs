@@ -24,11 +24,44 @@ namespace SinglyLinkedLists
             
         }
 
+
+        private void IndexOf(SinglyLinkedListNode newNode)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
         // READ: http://msdn.microsoft.com/en-us/library/6x16t2tx.aspx
         public string this[int i]
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { return this.ElementAt(i); }
+            set {
+                var node = this.first_node;
+                var newNode = new SinglyLinkedListNode(value);
+                var counter = 0;
+
+                while (node != null && this != null)
+                {
+                    counter++;
+                    if (counter == i)
+                    {
+                        var capturePointer = node.Next;
+                        node.Next = newNode;
+                        newNode.Next = capturePointer;
+                        return;
+                    }
+
+                    else if (ElementAt(i) == null)
+                    {
+                        throw new ArgumentException();
+                                                      
+                    }
+                    node = node.Next;
+                }
+
+
+            }
         }
 
 
@@ -67,7 +100,7 @@ namespace SinglyLinkedLists
             var node = this.first_node;
             var newNode = new SinglyLinkedListNode(value);
 
-            while (node != null)
+            while (node != null && existingValue != null)
             {
                 if (node.Value == existingValue)
                 {
@@ -79,15 +112,19 @@ namespace SinglyLinkedLists
 
                 else
                 {
-                    var lastNode = LastNode();
-                    lastNode.Next = newNode;
-                    return;
+                    throw new ArgumentException(); // Essentially, if existingValue is not found
+                    //var lastNode = LastNode();
+                    //lastNode.Next = newNode;
+                    //return;
                 }
-
                 node = node.Next; // Propelling the while loop onto each next node in line
-
             }
-             throw new ArgumentException(); // Essentially, if existingValue is not found    
+            while (node != null)
+            {
+                var lastNode = LastNode();
+                lastNode.Next = newNode;
+                return;
+            }
         }
 
 
@@ -98,6 +135,8 @@ namespace SinglyLinkedLists
         //    lastNode.Next = newNode;
         //    return;
         //}
+
+
 
 
         public void AddFirst(string value)

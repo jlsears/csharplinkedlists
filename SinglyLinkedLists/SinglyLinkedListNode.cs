@@ -44,6 +44,10 @@ namespace SinglyLinkedLists
             return node1.CompareTo(node2) > 0;
         }
 
+        public static implicit operator SinglyLinkedListNode(SinglyLinkedList v)
+        {
+            throw new NotImplementedException();
+        }
 
         public SinglyLinkedListNode(string input)
         {
