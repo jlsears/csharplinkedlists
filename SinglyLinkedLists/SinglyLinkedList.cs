@@ -41,26 +41,31 @@ namespace SinglyLinkedLists
                 var newNode = new SinglyLinkedListNode(value);
                 var counter = 0;
 
-                while (node != null && this != null)
+                while (node != null)
                 {
                     counter++;
                     if (counter == i)
                     {
+                        // If the next item in line is null
+                        if (node.Next == null)
+                        {
+                            node.Next = newNode;
+                            return;
+                        }
+
+                        // If there's an actual next item in line to point to here
                         var capturePointer = node.Next;
                         node.Next = newNode;
                         newNode.Next = capturePointer;
                         return;
                     }
 
-                    else if (ElementAt(i) == null)
+                    else if (node.IsLast())
                     {
-                        throw new ArgumentException();
-                                                      
+                        throw new ArgumentException();                                    
                     }
                     node = node.Next;
                 }
-
-
             }
         }
 
@@ -100,43 +105,44 @@ namespace SinglyLinkedLists
             var node = this.first_node;
             var newNode = new SinglyLinkedListNode(value);
 
-            while (node != null && existingValue != null)
+            // To handle existingValue scenarios
+            while (existingValue != null)
             {
                 if (node.Value == existingValue)
                 {
+                    if (node.Next == null)
+                    {
+                        node.Next = newNode;
+                        return;
+                    }
                     var capturePointer = node.Next;
                     node.Next = newNode;
                     newNode.Next = capturePointer;
                     return; // Not so much returning a thing as completing a modification
                 }
 
+                // If there's an exisingValue but it can't be found in this list
+                if (node.Next == null)
+                {
+                    throw new ArgumentException();
+                }
+                // Let us move the while loop along to the next node in line
                 else
                 {
-                    throw new ArgumentException(); // Essentially, if existingValue is not found
-                    //var lastNode = LastNode();
-                    //lastNode.Next = newNode;
-                    //return;
+                    node = node.Next; 
                 }
-                node = node.Next; // Propelling the while loop onto each next node in line
             }
+
+            // To handle scenarios where an exisingValue has not been provided
             while (node != null)
             {
                 var lastNode = LastNode();
                 lastNode.Next = newNode;
                 return;
             }
+            throw new ArgumentException(); // Essentially, if existingValue is not found
+
         }
-
-
-        //public void AddAfterLastItem(string value)
-        //{
-        //    var newNode = new SinglyLinkedListNode(value);
-        //    var lastNode = LastNode();
-        //    lastNode.Next = newNode;
-        //    return;
-        //}
-
-
 
 
         public void AddFirst(string value)
@@ -146,14 +152,21 @@ namespace SinglyLinkedLists
                 first_node = new SinglyLinkedListNode(value);
             } else
             {
-                var node = this.first_node;
-                while(!node.IsLast())
+                var workingList = new SinglyLinkedList();
+                workingList.AddFirst(value);
+                for (var i = 0; i < this.Count(); i++)
                 {
-                    node = node.Next;
+                    workingList.AddLast(this.ElementAt(i));
                 }
-                node.Next = new SinglyLinkedListNode(value);
+
+                first_node = new SinglyLinkedListNode(workingList.First());
+                for (var j = 1; j < workingList.Count(); j++)
+                {
+                    this.AddLast(workingList.ElementAt(j));
+                }
             }
         }
+
 
         public void AddLast(string value)
         {
@@ -233,7 +246,27 @@ namespace SinglyLinkedLists
 
         public int IndexOf(string value)
         {
-            throw new NotImplementedException();
+            var counter = 0;
+
+            if (this.First() == null)
+            {
+                return -1;
+            }
+            else
+            {
+                var node = this.first_node;
+
+                while (node != null)
+                {
+                    if (node.Value == value)
+                    {
+                        return counter;
+                    }
+                    node = node.Next;
+                    counter++;
+                }
+                return -1;
+            }
         }
 
         public bool IsSorted()
@@ -283,7 +316,61 @@ namespace SinglyLinkedLists
 
         public void Remove(string value)
         {
-            throw new NotImplementedException();
+            var node = this.first_node;
+            var newNode = new SinglyLinkedListNode(value);
+            var priorNode = this.first_node;
+
+            // To handle various node location scenarios
+            while (value != null)
+            {
+                // Look, we've found our node
+                if (node.Value == value)
+                {
+                    // If the node we seek is the first node
+                    if (node == this.first_node)
+                    {
+                        var herePointer = node.Next;
+                        first_node = herePointer;
+                    }
+
+                    // If the node we seek ends up being the last node
+                    if (node.IsLast())
+                    {
+                        var workingList = new SinglyLinkedList();
+                        var notYou = this.Count() - 1;
+                        //workingList.AddFirst(value);
+                        for (var i = 0; i < notYou; i++)
+                        {
+                            workingList.AddLast(this.ElementAt(i));
+                        }
+
+                        first_node = new SinglyLinkedListNode(workingList.First());
+                        for (var j = 1; j < workingList.Count(); j++)
+                        {
+                            this.AddLast(workingList.ElementAt(j));
+                            return;
+                        }
+                    }
+                    // For all nodes in between
+                    var capturePointer = node.Next;
+                    priorNode.Next = capturePointer;
+                    return; 
+                }
+
+                // If the value can't be found in this list
+                if (node.Next == null)
+                {
+                    return;
+                }
+                // Let us move the while loop along to the next node in line
+                else
+                {                   
+                    priorNode = node;
+                    node = node.Next;
+                }
+            }
+
+            throw new ArgumentException(); // Essentially, if existingValue is not found
         }
 
         public void Sort()
