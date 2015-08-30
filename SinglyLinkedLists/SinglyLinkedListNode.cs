@@ -18,7 +18,7 @@ namespace SinglyLinkedLists
             get { return next; }
             set
             {
-                if (value.Equals(this)) {
+                if (value.GetHashCode() == (this.GetHashCode())) {
                     throw new ArgumentException();
                 }
                 this.next = value;

@@ -39,33 +39,27 @@ namespace SinglyLinkedLists
             set {
                 var node = this.first_node;
                 var newNode = new SinglyLinkedListNode(value);
-                var counter = 0;
 
-                while (node != null)
+                if (i == 0)
                 {
-                    counter++;
-                    if (counter == i)
-                    {
-                        // If the next item in line is null
-                        if (node.Next == null)
-                        {
-                            node.Next = newNode;
-                            return;
-                        }
+                    var grabNext = node.Next;
+                    first_node = newNode;
+                    newNode.Next = grabNext;
+                    return;
+                } 
 
-                        // If there's an actual next item in line to point to here
-                        var capturePointer = node.Next;
-                        node.Next = newNode;
-                        newNode.Next = capturePointer;
-                        return;
-                    }
+                var beforeIt = NodeAt(i - 1);
 
-                    else if (node.IsLast())
-                    {
-                        throw new ArgumentException();                                    
-                    }
-                    node = node.Next;
+                if (NodeAt(i).IsLast())
+                {
+                    beforeIt.Next = newNode;
+                    return;
                 }
+
+                var afterIt = beforeIt.Next.Next;
+
+                beforeIt.Next = newNode;
+                newNode.Next = afterIt;
             }
         }
 
@@ -210,10 +204,16 @@ namespace SinglyLinkedLists
 
         public string ElementAt(int index)
         {
+            return NodeAt(index).Value;
+        }
+
+        private SinglyLinkedListNode NodeAt(int index)
+        {
             if (this.First() == null)
             {
                 throw new ArgumentOutOfRangeException();
-            } else
+            }
+            else
             {
 
                 var node = this.first_node;
@@ -226,7 +226,7 @@ namespace SinglyLinkedLists
                     }
                     node = node.Next;
                 }
-                return node.Value; //getting string for your node
+                return node;
             }
         }
 
@@ -271,7 +271,21 @@ namespace SinglyLinkedLists
 
         public bool IsSorted()
         {
-            throw new NotImplementedException();
+            var numbItems = this.Count();
+
+            if (numbItems == 1)
+            {
+                return true;
+            }
+
+            for (int i = 0; i < numbItems - 1; i++)
+            {
+                if (this[i].CompareTo(this[i+1]) > 0)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         // HINT 1: You can extract this functionality (finding the last item in the list) from a method you've already written!
@@ -370,12 +384,15 @@ namespace SinglyLinkedLists
                 }
             }
 
-            throw new ArgumentException(); // Essentially, if existingValue is not found
+            throw new ArgumentException(); // Essentially, if value is not found
         }
 
         public void Sort()
         {
-            throw new NotImplementedException();
+            if (this.Count() == 1)
+            {
+                return;
+            }
         }
 
         public string[] ToArray()
