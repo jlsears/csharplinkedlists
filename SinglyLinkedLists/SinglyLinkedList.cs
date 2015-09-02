@@ -389,10 +389,65 @@ namespace SinglyLinkedLists
 
         public void Sort()
         {
+            var theCount = this.Count();
+
             if (this.Count() == 1)
             {
                 return;
             }
+
+            var i = 0;
+            var j = i + 1;
+            var swapped = false;
+            
+            while (!this.IsSorted())
+            {
+                swapped = false;
+
+                while (j < theCount -1)
+                {
+                    var firstItem = NodeAt(i);
+                    var priorItem = NodeAt(i-1);
+                    var secondItem = NodeAt(j);
+                    var upcomingItem = NodeAt(j+1);
+
+                    if (firstItem.CompareTo(secondItem) > 0)
+                    {
+                        priorItem.Next = secondItem;
+                        secondItem.Next = firstItem;
+                        firstItem.Next = upcomingItem;
+
+                        swapped = true;
+                    }
+                    if (i == 0)
+                    {
+                        first_node = secondItem;
+                        secondItem.Next = firstItem;
+                    }
+
+                    else if (j == theCount - 1)
+                    {
+                        i = 0;
+
+                    }
+                    else if (this.IsSorted()) {
+
+                        break;
+
+                    } else
+                    {
+                        i++;
+                    }
+
+                    j = i + 1;
+                }
+                if (swapped == false)
+                {
+                    break;
+                }
+            }
+            return;
+
         }
 
         public string[] ToArray()
@@ -409,7 +464,6 @@ namespace SinglyLinkedLists
             }
             return output.ToArray();
         }
-
 
     }
 }
