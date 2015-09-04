@@ -399,56 +399,65 @@ namespace SinglyLinkedLists
             var i = 0;
             var j = i + 1;
             var swapped = false;
-            
+
             while (!this.IsSorted())
             {
                 swapped = false;
 
-                while (j < theCount -1)
-                {
-                    var firstItem = NodeAt(i);
-                    var priorItem = NodeAt(i-1);
-                    var secondItem = NodeAt(j);
-                    var upcomingItem = NodeAt(j+1);
+                var firstItem = NodeAt(i);
+                var secondItem = NodeAt(j);
+                var upcomingItem = NodeAt(j + 1);
 
+                while (j < theCount - 1)
+                {
                     if (firstItem.CompareTo(secondItem) > 0)
                     {
-                        priorItem.Next = secondItem;
+                        if (i == 0)
+                        {
+                            this.first_node = secondItem;
+                            secondItem.Next = firstItem;
+                            firstItem.Next = upcomingItem;
+                        }
+
+                        var priorItem2 = NodeAt(i - 1);
+
+                        priorItem2.Next = secondItem;
                         secondItem.Next = firstItem;
-                        firstItem.Next = upcomingItem;
+                        firstItem.Next = null;
 
                         swapped = true;
-                    }
-                    if (i == 0)
-                    {
-                        first_node = secondItem;
-                        secondItem.Next = firstItem;
-                    }
+                    } // Closing the CompareTo block
+                } // Closing while j < theCount - 1
 
-                    else if (j == theCount - 1)
-                    {
-                        i = 0;
+                var priorItem = NodeAt(i - 1);
 
-                    }
-                    else if (this.IsSorted()) {
+                 if (firstItem.CompareTo(secondItem) > 0)
+                 {
+                    priorItem.Next = secondItem;
+                    secondItem.Next = firstItem;
+                    firstItem.Next = null;
 
-                        break;
+                    swapped = true;
+                 }
 
-                    } else
-                    {
-                        i++;
-                    }
-
-                    j = i + 1;
-                }
+                i = 0;
+                j = i + 1;
+                
                 if (swapped == false)
                 {
                     break;
                 }
-            }
-            return;
 
+            }
         }
+                //if (swapped == false)
+                //{
+                //    break;
+                //}
+           // }
+            //return;
+            
+      //  }
 
         public string[] ToArray()
 
