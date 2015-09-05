@@ -408,56 +408,62 @@ namespace SinglyLinkedLists
                 var secondItem = NodeAt(j);
                 var upcomingItem = NodeAt(j + 1);
 
-                while (j < theCount - 1)
+                // While j is not in the last position
+                if (j < theCount - 1)
                 {
+                    // And if there needs to be a swap
                     if (firstItem.CompareTo(secondItem) > 0)
                     {
+                        // And if i is in the first position
                         if (i == 0)
                         {
-                            this.first_node = secondItem;
+                            first_node = secondItem;
                             secondItem.Next = firstItem;
                             firstItem.Next = upcomingItem;
+                            swapped = true;
                         }
 
+                        // If i is past first and we need to contend with the prior item
                         var priorItem2 = NodeAt(i - 1);
 
                         priorItem2.Next = secondItem;
                         secondItem.Next = firstItem;
-                        firstItem.Next = null;
-
+                        firstItem.Next = upcomingItem;
                         swapped = true;
                     } // Closing the CompareTo block
+                    i++;
+                    j = i + 1;
                 } // Closing while j < theCount - 1
 
+                // Otherwise, handling j in the last position
                 var priorItem = NodeAt(i - 1);
 
-                 if (firstItem.CompareTo(secondItem) > 0)
+                // If there needs to be a swap
+                if (firstItem.CompareTo(secondItem) > 0)
                  {
                     priorItem.Next = secondItem;
                     secondItem.Next = firstItem;
-                    firstItem.Next = null;
-
+                    firstItem.IsLast();
                     swapped = true;
                  }
+  
+                // If we are all done swapping
+                if (swapped == false)
+                {
+                    return;
+                }
+
+                else
+                {
+                    i++;
+                    j = i + 1;
+                }
 
                 i = 0;
                 j = i + 1;
-                
-                if (swapped == false)
-                {
-                    break;
-                }
-
             }
         }
-                //if (swapped == false)
-                //{
-                //    break;
-                //}
-           // }
-            //return;
-            
-      //  }
+ 
 
         public string[] ToArray()
 
