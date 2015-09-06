@@ -295,6 +295,11 @@ namespace SinglyLinkedLists
         public string Last()
         {
 
+            if (Count() == 0)
+            {
+                return null;
+            }
+
             return LastNode().Value;
         }
 
