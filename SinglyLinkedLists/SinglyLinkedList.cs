@@ -391,79 +391,43 @@ namespace SinglyLinkedLists
         {
             var theCount = this.Count();
 
-            if (this.Count() == 1)
+            if (theCount == 0 || theCount == 1)
             {
                 return;
             }
 
-            var i = 0;
-            var j = i + 1;
-            var swapped = false;
-
-            while (!this.IsSorted())
+            else
             {
-                swapped = false;
+                var i = 0;
+                var j = i + 1;
 
-                var firstItem = NodeAt(i);
-                var secondItem = NodeAt(j);
-                var upcomingItem = NodeAt(j + 1);
 
-                // While j is not in the last position
-                if (j < theCount - 1)
+                // While this is not sorted
+                while (!IsSorted())
                 {
+                    var firstItem = NodeAt(i);
+                    var secondItem = NodeAt(j);
+
                     // And if there needs to be a swap
                     if (firstItem.CompareTo(secondItem) > 0)
                     {
-                        // And if i is in the first position
-                        if (i == 0)
-                        {
-                            first_node = secondItem;
-                            secondItem.Next = firstItem;
-                            firstItem.Next = upcomingItem;
-                            swapped = true;
-                        }
+                        var holder = secondItem;
+                        this[j] = firstItem.Value;
+                        this[i] = holder.Value;
+                    }
 
-                        // If i is past first and we need to contend with the prior item
-                        var priorItem2 = NodeAt(i - 1);
+                    if (j == theCount - 1)
+                    {
+                        i = 0;
+                        j = i + 1;
+                    }
 
-                        priorItem2.Next = secondItem;
-                        secondItem.Next = firstItem;
-                        firstItem.Next = upcomingItem;
-                        swapped = true;
-                    } // Closing the CompareTo block
-                    i++;
-                    j = i + 1;
-                } // Closing while j < theCount - 1
-
-                // Otherwise, handling j in the last position
-                var priorItem = NodeAt(i - 1);
-
-                // If there needs to be a swap
-                if (firstItem.CompareTo(secondItem) > 0)
-                 {
-                    priorItem.Next = secondItem;
-                    secondItem.Next = firstItem;
-                    firstItem.IsLast();
-                    swapped = true;
-                 }
-  
-                // If we are all done swapping
-                if (swapped == false)
-                {
-                    return;
-                }
-
-                else
-                {
                     i++;
                     j = i + 1;
                 }
-
-                i = 0;
-                j = i + 1;
             }
         }
- 
+
 
         public string[] ToArray()
 
