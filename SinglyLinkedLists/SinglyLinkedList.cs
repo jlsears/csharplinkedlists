@@ -42,20 +42,24 @@ namespace SinglyLinkedLists
 
                 if (i == 0)
                 {
+                    // Setting element as the first node and directing pointer to next accordingly
                     var grabNext = node.Next;
                     first_node = newNode;
                     newNode.Next = grabNext;
                     return;
-                } 
+                }
 
+                // From here on out we need to factor in the prior node
                 var beforeIt = NodeAt(i - 1);
 
+                // If this happens to be the last node
                 if (NodeAt(i).IsLast())
                 {
                     beforeIt.Next = newNode;
                     return;
                 }
 
+                // Otherwise, use this code to set the node and redirect pointers appropriately
                 var afterIt = beforeIt.Next.Next;
 
                 beforeIt.Next = newNode;
@@ -141,19 +145,26 @@ namespace SinglyLinkedLists
 
         public void AddFirst(string value)
         {
+            // If there are no other nodes to coordinate with here
             if (this.First() == null)
             {
                 first_node = new SinglyLinkedListNode(value);
             } else
             {
+                // Creating a new list that begins with this value
                 var workingList = new SinglyLinkedList();
                 workingList.AddFirst(value);
+
+                // Looping through the current list and adding those nodes to the new list
                 for (var i = 0; i < this.Count(); i++)
                 {
                     workingList.AddLast(this.ElementAt(i));
                 }
 
+                // Setting the value as the first node
                 first_node = new SinglyLinkedListNode(workingList.First());
+
+                // Looping back through and filling the subsequent nodes back into the current list
                 for (var j = 1; j < workingList.Count(); j++)
                 {
                     this.AddLast(workingList.ElementAt(j));
@@ -170,10 +181,13 @@ namespace SinglyLinkedLists
             } else
             {
                 var node = this.first_node;
+
+                // While we're not on the last node, keep looping through
                 while(!node.IsLast()) 
                 {
                     node = node.Next;
                 }
+                // Once we've broken out of that loop, add the new node after the current last one
                 node.Next = new SinglyLinkedListNode(value);
             }
         }
@@ -202,6 +216,7 @@ namespace SinglyLinkedLists
             //Provide a second implementation
         }
 
+        // Just returning the Value of the node resulting from calling the NodeAt method
         public string ElementAt(int index)
         {
             return NodeAt(index).Value;
@@ -248,6 +263,7 @@ namespace SinglyLinkedLists
         {
             var counter = 0;
 
+            // If null just return -1, because we'll make use of that elsewhere
             if (this.First() == null)
             {
                 return -1;
@@ -280,6 +296,7 @@ namespace SinglyLinkedLists
 
             for (int i = 0; i < numbItems - 1; i++)
             {
+                // CompareTo > 0 means the items are in reverse sort order
                 if (this[i].CompareTo(this[i+1]) > 0)
                 {
                     return false;
@@ -406,7 +423,6 @@ namespace SinglyLinkedLists
                 var i = 0;
                 var j = i + 1;
 
-
                 // While this is not sorted
                 while (!IsSorted())
                 {
@@ -421,6 +437,7 @@ namespace SinglyLinkedLists
                         this[i] = holder.Value;
                     }
 
+                    // If we're on the last node, then reset i and j
                     if (j == theCount - 1)
                     {
                         i = 0;
