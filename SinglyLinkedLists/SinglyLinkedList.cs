@@ -261,6 +261,7 @@ namespace SinglyLinkedLists
 
         public int IndexOf(string value)
         {
+            // Can simply increment this with each loop to determine the index position
             var counter = 0;
 
             // If null just return -1, because we'll make use of that elsewhere
@@ -309,6 +310,8 @@ namespace SinglyLinkedLists
         // HINT 2: I suggest writing a private helper method LastNode()
         // HINT 3: If you highlight code and right click, you can use the refactor menu to extract a method for you...
 
+
+        // Just implementing the LastNode() method with the addition of .Value
         public string Last()
         {
 

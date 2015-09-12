@@ -18,6 +18,7 @@ namespace SinglyLinkedLists
             get { return next; }
             set
             {
+                // Ensures we're looking for the very same node, not just a look-alike
                 if (value.GetHashCode() == (this.GetHashCode())) {
                     throw new ArgumentException();
                 }
